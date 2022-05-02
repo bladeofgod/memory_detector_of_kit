@@ -20,7 +20,7 @@ class _DataBaseBridge{
 
   static Future<Database> _openDatabase() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'memory_leak_rocord.db'),
+      join(await getDatabasesPath(), 'memory_leak_record.db'),
       version: _kLeakedInfoDatabase,
       onCreate: (Database db, int version) {
         return db.execute(
