@@ -675,7 +675,10 @@ class FieldRefParser implements ObjectAnalyzeStrategy{
 
     Class? clz;
     if(fieldRef.owner?.id != null) {
-      clz = (await analyzer._getObjInstanceById(fieldRef.owner!.id!)) as Class?;
+      var result = await analyzer._getObjInstanceById(fieldRef.owner!.id!);
+      if(result is Class?) {
+        clz = result;
+      }
     }
 
     SourceCodeLocation? sourceCodeLocation;
