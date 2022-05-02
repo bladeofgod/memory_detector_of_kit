@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:memory_detector_of_kit/memory_detector.dart';
 
 ///引用链最大长度
-/// * see [VmService.getRetainingPath]
+/// * 见 [VmService.getRetainingPath]
 const int maxRetainingPath = int.fromEnvironment("maxRetainingPath", defaultValue: 400);
 
 ///强制关闭内存检测
@@ -16,8 +16,9 @@ const bool forceCloseMemDetector = bool.fromEnvironment("forceCloseMemDetector",
 const int delayDoDetect = int.fromEnvironment('delayDoDetect', defaultValue: 800);
 
 ///扩展单元数量
-/// * 在gc前创建[expandUnitNumber]个对象，用于出发full gc
+/// * 在gc前创建[expandUnitNumber]个对象，用于触发full gc
 /// * 0则不创建。
+/// * 在实际项目接入中，由于项目所占用的内存，默认值可能过大，建议根据需求调整。
 const int expandUnitNumber = int .fromEnvironment('expandUnitNumber', defaultValue: 10000000);
 
 ///内存检测工具

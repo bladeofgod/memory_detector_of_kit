@@ -188,22 +188,14 @@ mixin DetectTaskRunner on VmServiceDelegate {
     Timer(Duration(milliseconds: delay), () async {
       if(await _checkHasLeaked(_currentTask!)) {
         _sink.add(DetectTaskEvent.withTimeStamp(TaskPhase.startGC));
-        _expandHeap();
-        //todo maybe not full
+        await compute(_expandHeap, expandUnitNumber, debugLabel: 'expand heap');
         await _startGC();
         _sink.add(DetectTaskEvent.withTimeStamp(TaskPhase.endGC));
         _startAnalyzeAfterGc();
-        //doneCallback.call();
       } else {
         _sink.add(DetectTaskEvent.withTimeStamp(TaskPhase.endDetect));
       }
     });
-  }
-
-  void _expandHeap() {
-    debugPrint('expanding...');
-    List.generate(expandUnitNumber, (index) => HashMap());
-    debugPrint('expanded');
   }
 
   ///gc完成后开始分析泄露
@@ -787,6 +779,12 @@ extension DetectInstance on Instance{
 
 }
 
+
+void _expandHeap(int size) {
+  debugPrint('expanding...');
+  List.generate(size, (index) => HashMap());
+  debugPrint('expanded');
+}
 
 
 
