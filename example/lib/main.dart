@@ -1,12 +1,37 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ume_kit_console/flutter_ume_kit_console.dart';
+import 'package:flutter_ume_kit_device/flutter_ume_kit_device.dart';
+import 'package:flutter_ume_kit_perf/flutter_ume_kit_perf.dart';
+import 'package:flutter_ume_kit_show_code/flutter_ume_kit_show_code.dart';
+import 'package:flutter_ume_kit_ui/flutter_ume_kit_ui.dart';
 import 'package:memory_detector_of_kit/memory_detector_of_kit.dart';
 
 import 'package:memory_detector_of_kit/widget/mem_detector_button.dart';
-
+import 'package:flutter_ume/flutter_ume.dart';
 import 'leak_page.dart';
 
 void main() {
-  runApp(const MyApp());
+
+  if(!kReleaseMode) {
+    PluginManager.instance                                 // 注册插件
+      ..register(WidgetInfoInspector())
+      ..register(WidgetDetailInspector())
+      ..register(ColorSucker())
+      ..register(AlignRuler())
+      ..register(ColorPicker())                            // 新插件
+      ..register(TouchIndicator())                         // 新插件
+      ..register(Performance())
+      ..register(ShowCode())
+      ..register(MemoryInfoPage())
+      ..register(CpuInfoPage())
+      ..register(DeviceInfoPanel())
+      ..register(Console());
+    // flutter_ume 0.3.0 版本之后
+    runApp(UMEWidget(child: MyApp(), enable: true)); // 初始化
+  } else {
+    runApp(const MyApp());
+  }
 }
 
 class MyApp extends StatefulWidget {
