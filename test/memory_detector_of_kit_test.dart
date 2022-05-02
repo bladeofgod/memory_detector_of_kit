@@ -16,6 +16,7 @@ void main() {
     String key = leaker.hashCode.toString();
     defaultHandler = (LeakedInfo info) {
       debugPrint(info.toString());
+      expect(info.retainingPathJson.length, inInclusiveRange(1, double.infinity));
     };
     Completer completer = Completer();
 
@@ -26,7 +27,7 @@ void main() {
     MemoryDetectorOfKit().taskPhaseStream.listen((event) async {
       TaskPhase phase = event.phase;
       debugPrint('phase : $phase');
-      expect(phase.index, inInclusiveRange(0, 6));
+      expect(phase.index, inInclusiveRange(0, 5));
       if(phase == TaskPhase.endDetect) {
         completer.complete();
       }
