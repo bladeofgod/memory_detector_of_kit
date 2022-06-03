@@ -7,8 +7,10 @@ import 'package:memory_detector_of_kit/memory_detector.dart';
 /// * 见 [VmService.getRetainingPath]
 const int maxRetainingPath = int.fromEnvironment("maxRetainingPath", defaultValue: 400);
 
-///强制关闭内存检测
-const bool forceCloseMemDetector = bool.fromEnvironment("forceCloseMemDetector", defaultValue: false);
+///关闭内存检测
+///
+/// * 更多见 ： [MemoryDetector.enableDetector] and [MemoryDetector.closeDetector]
+const bool closeMemDetector = bool.fromEnvironment("closeMemDetector", defaultValue: false);
 
 ///延迟检测
 /// * 单位 : 毫秒
@@ -32,7 +34,7 @@ class MemoryDetectorOfKit extends MemoryDetector with NavigatorObserver{
     return _singleton!;
   }
 
-  MemoryDetectorOfKit._() : super(forceCloseMemDetector);
+  MemoryDetectorOfKit._() : super(closeMemDetector);
 
 
   @override

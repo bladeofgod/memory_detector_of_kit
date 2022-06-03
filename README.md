@@ -117,7 +117,7 @@
 const int maxRetainingPath = int.fromEnvironment("maxRetainingPath", defaultValue: 400);
 
 ///强制关闭内存检测
-const bool forceCloseMemDetector = bool.fromEnvironment("forceCloseMemDetector", defaultValue: false);
+const bool closeMemDetector = bool.fromEnvironment("closeMemDetector", defaultValue: false);
 
 ///延迟检测
 /// * 单位 : 毫秒

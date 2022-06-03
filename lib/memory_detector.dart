@@ -30,8 +30,8 @@ abstract class MemoryDetector with VmServiceDelegate, DetectTaskRunner {
 
   ///[forceClose] = true : 禁用整个检测功能
   ///[autoTask] 默认false，实际项目中一些常存页面会导致检测时间过长
-  MemoryDetector(this.forceClose, {bool autoTask = false}) {
-    if(!kReleaseMode && !forceClose) {
+  MemoryDetector(this._isDetectorClose, {bool autoTask = false}) {
+    if(!kReleaseMode && !_isDetectorClose) {
       _warmRunnerUp();
       if(autoTask) {
         taskPhaseStream.listen(_autoTaskListener);
@@ -39,8 +39,8 @@ abstract class MemoryDetector with VmServiceDelegate, DetectTaskRunner {
     }
   }
 
-  ///强制关闭检测
-  final bool forceClose;
+  ///关闭检测
+  bool _isDetectorClose;
 
   ///泄露信息流
   Stream<LeakedInfo?> get infoStream => _infoStreamController.stream;
@@ -49,6 +49,17 @@ abstract class MemoryDetector with VmServiceDelegate, DetectTaskRunner {
   Stream<DetectTaskEvent> get taskPhaseStream => _detectEventController.stream;
 
   TaskPhase get currentPhase => _currentPhase;
+
+  ///开启检测功能
+  void enableDetector() {
+    _isDetectorClose = true;
+  }
+
+  ///关闭检测功能
+  void closeDetector() {
+    _isDetectorClose = false;
+  }
+
 
   ///检测任务完成会，会自动检测下一个
   void _autoTaskListener(DetectTaskEvent event) {
@@ -60,19 +71,19 @@ abstract class MemoryDetector with VmServiceDelegate, DetectTaskRunner {
   ///添加一个待检测对象，并触发检测
   /// * [obj] 待检测对象， [group]所属分组
   void addObjectWithDetect({required Object obj, required String group}) {
-    if(forceClose) return;
+    if(_isDetectorClose) return;
     _addDetectObject(obj: obj, group: group);
     _startDetectTask();
   }
 
   ///添加检测对象
   void addObject({required Object obj, required String group}) {
-    if(forceClose) return;
+    if(_isDetectorClose) return;
     _addDetectObject(obj: obj, group: group);
   }
 
   void doDetect(String group) {
-    if(forceClose) return;
+    if(_isDetectorClose) return;
     _startDetectTask(group: group);
   }
 
