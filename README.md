@@ -14,11 +14,11 @@
 
 ```
 
-（非必须）将`RikiMemDetectorButton` 添加到任意位置，建议悬浮窗：
+（非必须）将`MemDetectorButton` 添加到任意位置，建议悬浮窗：
 
 ```
             WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-              entry = OverlayEntry(builder: (_) => const RikiMemDetectorButton());
+              entry = OverlayEntry(builder: (_) => const MemDetectorButton());
               Overlay.of(context)?.insert(entry!);
             });
 ```

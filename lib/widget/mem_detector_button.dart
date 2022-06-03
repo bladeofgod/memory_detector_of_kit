@@ -9,17 +9,17 @@ import 'popup_window.dart';
 /// 作者：李佳奇
 /// 日期：2022/4/25
 /// 备注：泄露信息入口按钮
-class RikiMemDetectorButton extends StatefulWidget{
-  const RikiMemDetectorButton({Key? key}) : super(key: key);
+class MemDetectorButton extends StatefulWidget{
+  const MemDetectorButton({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return RikiMemDetectorButtonState();
+    return MemDetectorButtonState();
   }
 
 }
 
-class RikiMemDetectorButtonState extends State<RikiMemDetectorButton> {
+class MemDetectorButtonState extends State<MemDetectorButton> {
 
   List<LeakedInfo> cache = [];
 

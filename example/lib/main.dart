@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context) {
           if(entry == null) {
             WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-              entry = OverlayEntry(builder: (_) => const RikiMemDetectorButton());
+              entry = OverlayEntry(builder: (_) => const MemDetectorButton());
               Overlay.of(context)?.insert(entry!);
             });
           }
@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
             appBar: AppBar(
               title: const Text('Plugin example app'),
             ),
-            //floatingActionButton: const RikiMemDetectorButton(),
+            //floatingActionButton: const MemDetectorButton(),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
