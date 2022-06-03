@@ -50,16 +50,10 @@ abstract class MemoryDetector with VmServiceDelegate, DetectTaskRunner {
 
   TaskPhase get currentPhase => _currentPhase;
 
-  ///开启检测功能
-  void enableDetector() {
-    _isDetectorClose = true;
+  ///检测功能开关
+  void switchDetector(bool on) {
+    _isDetectorClose = on;
   }
-
-  ///关闭检测功能
-  void closeDetector() {
-    _isDetectorClose = false;
-  }
-
 
   ///检测任务完成会，会自动检测下一个
   void _autoTaskListener(DetectTaskEvent event) {

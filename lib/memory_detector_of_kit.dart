@@ -9,7 +9,7 @@ const int maxRetainingPath = int.fromEnvironment("maxRetainingPath", defaultValu
 
 ///关闭内存检测
 ///
-/// * 更多见 ： [MemoryDetector.enableDetector] and [MemoryDetector.closeDetector]
+/// * 更多见 ： [MemoryDetector.switchDetector]
 const bool closeMemDetector = bool.fromEnvironment("closeMemDetector", defaultValue: false);
 
 ///延迟检测
@@ -21,7 +21,7 @@ const int delayDoDetect = int.fromEnvironment('delayDoDetect', defaultValue: 800
 /// * 在gc前创建[expandUnitNumber]个对象，用于触发full gc
 /// * 0则不创建。
 /// * 在实际项目接入中，由于项目所占用的内存，默认值可能过大，建议根据需求调整。
-const int expandUnitNumber = int .fromEnvironment('expandUnitNumber', defaultValue: 10000000);
+const int expandUnitNumber = int .fromEnvironment('expandUnitNumber', defaultValue: 100000);
 
 ///内存检测工具
 /// * 切勿在release下运行。

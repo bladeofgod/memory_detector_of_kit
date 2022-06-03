@@ -5,16 +5,56 @@ import '../memory_detector.dart';
 import '../memory_detector_of_kit.dart';
 import 'leaked_info_page.dart';
 import 'popup_window.dart';
+import 'package:flutter_ume/flutter_ume.dart';
 
 /// 作者：李佳奇
 /// 日期：2022/4/25
 /// 备注：泄露信息入口按钮
-class MemDetectorButton extends StatefulWidget{
-  const MemDetectorButton({Key? key}) : super(key: key);
+class MemDetectorButton extends StatefulWidget implements Pluggable{
+
+  MemDetectorButton({Key? key}) : super(key: key);
+
+  OverlayEntry? entry;
+
+  bool isOpen = false;
+
+  BuildContext? ctx;
 
   @override
   State<StatefulWidget> createState() {
     return MemDetectorButtonState();
+  }
+
+  @override
+  Widget buildWidget(BuildContext? context) {
+    ctx = context;
+    return SizedBox();
+  }
+
+  @override
+  String get displayName => 'memory_detector';
+
+  @override
+  ImageProvider<Object> get iconImageProvider => AssetImage('assets/detectc.png', package: 'memory_detector_of_kit');
+
+  @override
+  String get name => 'memory_detector';
+
+  @override
+  void onTrigger() {
+    isOpen = !isOpen;
+    MemoryDetectorOfKit().switchDetector(!isOpen);
+    if(isOpen) {
+      if(entry == null) {
+        WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+          entry = OverlayEntry(builder: (_) => MemDetectorButton());
+          Overlay.of(ctx!)?.insert(entry!);
+        });
+      }
+    } else {
+      entry?.remove();
+      entry = null;
+    }
   }
 
 }
@@ -25,6 +65,8 @@ class MemDetectorButtonState extends State<MemDetectorButton> {
 
   double btnLeft = 10;
   double btnTop = 200;
+
+  OverlayEntry? entry;
 
   void _dragUpdate(DragUpdateDetails details) {
     setState(() {
@@ -53,11 +95,16 @@ class MemDetectorButtonState extends State<MemDetectorButton> {
         child: GestureDetector(
           onTap: () async {
             if(cache.isEmpty) return;
-            await MemDetectorPopupWindow.showBottomDrawer(context, LeakedInfoPage(leakInfoList: cache,));
-            cache.clear();
-            setState(() {
-
-            });
+            if(entry == null) {
+              entry = OverlayEntry(builder: (_) => LeakedInfoPage(leakInfoList: cache, popCallback: () {
+                entry?.remove();
+                entry = null;
+                cache.clear();
+                setState(() {
+                });
+              },));
+              Overlay.of(context)?.insert(entry!);
+            }
           },
           onPanUpdate: _dragUpdate,
           child: Container(

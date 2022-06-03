@@ -26,6 +26,7 @@ void main() {
       ..register(MemoryInfoPage())
       ..register(CpuInfoPage())
       ..register(DeviceInfoPanel())
+      ..register(MemDetectorButton())
       ..register(Console());
     // flutter_ume 0.3.0 版本之后
     runApp(UMEWidget(child: MyApp(), enable: true)); // 初始化
@@ -62,12 +63,12 @@ class _MyAppState extends State<MyApp> {
       ],
       home: Builder(
         builder: (context) {
-          if(entry == null) {
-            WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-              entry = OverlayEntry(builder: (_) => const MemDetectorButton());
-              Overlay.of(context)?.insert(entry!);
-            });
-          }
+          // if(entry == null) {
+          //   WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+          //     entry = OverlayEntry(builder: (_) => MemDetectorButton());
+          //     Overlay.of(context)?.insert(entry!);
+          //   });
+          // }
           return Scaffold(
             appBar: AppBar(
               title: const Text('Plugin example app'),

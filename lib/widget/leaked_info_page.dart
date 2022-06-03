@@ -13,9 +13,11 @@ const colors = [Colors.yellow, Colors.greenAccent];
 
 class LeakedInfoPage extends StatefulWidget{
 
-  const LeakedInfoPage({Key? key, required this.leakInfoList}) : super(key: key);
+  const LeakedInfoPage({Key? key, required this.leakInfoList, required this.popCallback}) : super(key: key);
 
   final List<LeakedInfo> leakInfoList;
+
+  final Function popCallback;
 
   @override
   State<StatefulWidget> createState() {
@@ -65,7 +67,8 @@ class LeakedInfoPageState extends State<LeakedInfoPage> {
     widget.leakInfoList.removeAt(_currentIndex);
     LeakedInfoDbRecorder().deleteById(info.timestamp!);
     if (widget.leakInfoList.isEmpty) {
-      Navigator.pop(context);
+      //Navigator.pop(context);
+      widget.popCallback.call();
     } else {
       setState(() {
         _scrollController.jumpTo(0.0);
@@ -83,12 +86,15 @@ class LeakedInfoPageState extends State<LeakedInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 6 / 7,
+    return GestureDetector(
+      onTap: () {
+        widget.popCallback.call();
+      },
+      child: Material(
+        color: Colors.black.withOpacity(0.3),
         child: Column(
           children: [
+            SizedBox(height: MediaQuery.of(context).size.height * 1 / 7,),
             _buildTitleBar(),
             _buildLeakPath(),
             _buildPageSwitcher(),
